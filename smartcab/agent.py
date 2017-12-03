@@ -44,7 +44,6 @@ class LearningAgent(Agent):
             self.alpha = 0
         else:
             #self.epsilon = self.epsilon - 0.05  # default learning
-            # self.epsilon = self.epsilon * 0.99  #optimized learning
             self.epsilon = math.exp(-self.alpha*self.t)
             self.t += 1
 
@@ -88,40 +87,35 @@ class LearningAgent(Agent):
 
         if state in self.Q:
             key, value = max(self.Q[state].iteritems(), key=lambda x:x[1])
-            maxQ = key
+            maxQ = value
         else:
             createQ(state)
 
         return maxQ 
 
-    def get_second_maxQ(self, state):
+#    def get_second_maxQ(self, state):
 
-        ########### 
-        ## TO DO ##
-        ###########
-        # Calculate the maximum Q-value of all actions for a given state
-
-        smaxQ = None
-        fmaxQ = None
-        res = None
+#        smaxQ = None
+#        fmaxQ = None
+#        res = None
         
-        if state in self.Q:
-            for action in self.Q[state]:
-                curr = self.Q[state][action]
-                if(smaxQ < curr) and (fmaxQ < curr):
-                    fmaxQ = curr
-                    smaxQ = fmaxQ
-                elif (smaxQ < curr) and (fmaxQ >= curr):
-                    smaxQ = curr
+#        if state in self.Q:
+#            for action in self.Q[state]:
+#                curr = self.Q[state][action]
+#                if(smaxQ < curr) and (fmaxQ < curr):
+#                    fmaxQ = curr
+#                    smaxQ = fmaxQ
+#                elif (smaxQ < curr) and (fmaxQ >= curr):
+#                    smaxQ = curr
 
-        print "get_second_maxQ {}".format(smaxQ)
+#        print "get_second_maxQ {}".format(smaxQ)
         
-        for action in self.Q[state]:
-            print "get_second_maxQ self.Q[state][action]{}".format(self.Q[state][action])
-            if self.Q[state][action] == smaxQ:
-                res = action
+#        for action in self.Q[state]:
+#            print "get_second_maxQ self.Q[state][action]{}".format(self.Q[state][action])
+#            if self.Q[state][action] == smaxQ:
+#                res = action
 
-        return res 
+#        return res 
 
     
     def createQ(self, state):
@@ -167,11 +161,20 @@ class LearningAgent(Agent):
             action = random.choice(self.valid_actions)
             print "choose_action random {}".format(action)
         else:
-            action = self.get_maxQ(state)
-            action2 = self.get_second_maxQ(state)
-            print "choose_action maxQ {}".format(action)
-            print "choose_action second maxQ {}".format(action2)
-            action = random.choice([action, action2])
+            #action = self.get_maxQ(state)
+            #action2 = self.get_second_maxQ(state)
+            #print "choose_action maxQ {}".format(action)
+            #print "choose_action second maxQ {}".format(action2)
+            #action = random.choice([action, action2])
+            
+            maxQ = self.get_maxQ(state) # This is the maximum Q-value (e.g. 2.4)
+            best_actions = []
+            for act in self.Q[state]:
+                if maxQ == self.Q[state][act]:
+                    print "choose_action maxQ {} act {} self.Q[state][act]{}".format(maxQ, act, self.Q[state][act])
+                    best_actions.append(act)
+            print "choose_action best_actions {}".format(best_actions)
+            action = random.choice(best_actions)
             
         print "choose_action final {}".format(action)
         return action
