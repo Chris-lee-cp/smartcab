@@ -16278,6 +16278,15 @@ TyywJEmSJKkndwCGTJ24mCHrRgAAAABJRU5ErkJggg==
 <li>not optimal way. </li>
 </ul>
 <p>Most of state are learned correctly. It is not easy to find an weird state table.</p>
+<p>('left', 'red', 'left', 'left', 'forward')
+ -- forward : 0.00
+ -- right : 0.04
+ -- None : 0.00
+ -- left : -0.02</p>
+<p>This is one expample of sub-optimal. 
+ Car agent want to go left. Signal is red. So, optimal is none. 
+ However, right turn has higher reward than none. 
+ I suspect Q-learing algorithm did not visit none case during training. This should be why my car agent did not get A+ reliability rate.</p>
 
 </div>
 </div>
